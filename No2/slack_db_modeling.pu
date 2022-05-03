@@ -1,0 +1,63 @@
+@startuml slack_db_model
+
+entity user {
+    * user_id [PK]
+    --
+    * user_name
+    * belong_to_workspace_id_array[] [FK]
+    * belong_to_channel_id_array[] [FK]
+}
+
+entity workspace {
+    * workspace_id [PK]
+    --
+    * workspace_name
+    * own_channels_id_array[] [FK]
+}
+
+entity belong_to_workspace {
+    * belong_to_workspace_id [PK]
+    --
+    * workspace_id [FK]
+    * user_id [FK]
+    * belong_date
+}
+
+entity channel {
+    * channel_id [PK]
+    --
+    * channel_name
+    * workspace_id [FK]
+}
+
+entity belong_to_channel {
+    * belong_to_channel_id [PK]
+    --
+    * channel_id [FK]
+    * user_id [FK]
+    * belong_date
+}
+
+entity own_channels {
+    * own_channels_id [PK]
+    --
+    * channel_id [FK]
+    * create_date
+}
+
+entity message {
+    * message_id [PK]
+    --
+    * thread_id [FK]
+    * user_id [FK]
+    * channel_id [FK]
+    * when_create
+}
+
+user ||--|{ belong_to_workspace
+user ||--|{ belong_to_channel
+workspace ||--|{ belong_to_workspace
+channel ||--|{ belong_to_channel
+workspace ||--|{ own_channels
+own_channels ||--|{ channel
+user ||--o{ message
