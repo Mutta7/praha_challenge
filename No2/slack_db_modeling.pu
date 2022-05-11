@@ -16,7 +16,7 @@ entity belong_to_workspace {
     * workspace_id [FK]
     * user_id [FK]
     --
-    * belong_date
+    * when_belonged
 }
 
 entity channel {
@@ -30,29 +30,32 @@ entity belong_to_channel {
     * channel_id [FK]
     * user_id [FK]
     --
-    * belong_date
+    * when_belonged
 }
 
 entity own_channels {
     * workspace_id [FK]
     * channel_id [FK]
     --
-    * create_date
+    * when_created
 }
 
 entity message {
     * message_id [PK]
     --
-    * thread_id [FK]
+    * thread_id
     * user_id [FK]
     * channel_id [FK]
-    * when_create
+    * content
+    * when_created
+    * when_updated
 }
 
-user ||--|{ belong_to_workspace
-user ||--|{ belong_to_channel
-workspace ||--|{ belong_to_workspace
-channel ||--|{ belong_to_channel
-workspace ||--|{ own_channels
-own_channels ||--|{ channel
+user ||--o{ belong_to_workspace
+user ||--o{ belong_to_channel
 user ||--o{ message
+workspace ||--o{ belong_to_workspace
+channel ||--o{ belong_to_channel
+workspace ||--o{ own_channels
+own_channels ||--|| channel
+channel ||--o{ message
