@@ -1,0 +1,27 @@
+@startuml no3_task1
+
+entity users {
+    * user_id [PK]
+    --
+    * user_name
+}
+
+entity documents {
+    * document_id [PK]
+    --
+    * document_name
+    * documents_directories_id [FK]
+    * user_id [FK]
+    * created_at
+    * updated_at
+    * content
+}
+
+entity documents_directories {
+    * character || documents_directories_id [PK]
+    --
+    * directories_id [FK]
+    * updated_at (timestamp)
+}
+
+documents ||--|| documents_directories
